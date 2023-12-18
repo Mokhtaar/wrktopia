@@ -1,0 +1,135 @@
+// // This is your Prisma schema file,
+// // learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// generator client {
+//   provider = "prisma-client-js"
+// }
+
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+
+// // schema.prisma
+
+// model User {
+//   id              Int       @id @default(autoincrement())
+//   username        String    @unique
+//   email           String    @unique
+//   password        String
+//   profilePicture  String?
+//   skills          String[]  // Assuming skills are stored as an array of strings
+
+//   // Relationships
+//   jobs            Job[]     @relation("employer")
+//   proposals       Proposal[] @relation("freelancer")
+//   contracts       Contract[] @relation(fields: [freelancerId], references: [id])
+//   sentMessages    Message[] @relation("sender")
+//   receivedMessages Message[] @relation("receiver")
+//   reviews         Review[]  @relation(fields: [reviewerId], references: [id])
+// }
+
+// model Job {
+//   id            Int      @id @default(autoincrement())
+//   title         String
+//   description   String
+//   category      String
+//   budget        Float
+//   deadline      DateTime
+//   status        String
+
+//   // Relationships
+//   employer      User     @relation("employer", fields: [employerId], references: [id])
+//   proposals     Proposal[]
+
+//   // Additional fields for relationships
+//   employerId    Int
+// }
+
+// model Proposal {
+//   id            Int     @id @default(autoincrement())
+//   coverLetter   String
+//   bidAmount     Float
+//   status        String
+
+//   // Relationships
+//   job           Job     @relation(fields: [jobId], references: [id])
+//   freelancer    User    @relation("freelancer", fields: [freelancerId], references: [id])
+
+//   // Additional fields for relationships
+//   jobId         Int
+//   freelancerId  Int
+// }
+
+// model Contract {
+//   id            Int      @id @default(autoincrement())
+//   startDate     DateTime
+//   endDate       DateTime
+//   paymentAmount Float
+//   status        String
+
+//   // Relationships
+//   job           Job     @relation(fields: [jobId], references: [id])
+//   freelancer    User    @relation(fields: [freelancerId], references: [id])
+//   employer      User    @relation(fields: [employerId], references: [id])
+
+//   // Additional fields for relationships
+//   jobId         Int
+//   freelancerId  Int
+//   employerId    Int
+// }
+
+// model Message {
+//   id          Int      @id @default(autoincrement())
+//   content     String
+//   timestamp   DateTime
+
+//   // Relationships
+//   sender      User     @relation("sender", fields: [senderId], references: [id])
+//   receiver    User     @relation("receiver", fields: [receiverId], references: [id])
+
+//   // Additional fields for relationships
+//   senderId    Int
+//   receiverId  Int
+// }
+
+// model Review {
+//   id           Int      @id @default(autoincrement())
+//   rating       Int
+//   comment      String
+
+//   // Relationships
+//   contract     Contract @relation(fields: [contractId], references: [id])
+//   reviewer     User     @relation(fields: [reviewerId], references: [id])
+
+//   // Additional fields for relationships
+//   contractId   Int
+//   reviewerId   Int
+// }
+
+// model Category {
+//   id    Int    @id @default(autoincrement())
+//   name  String
+
+//   // Relationships
+//   jobs  Job[]
+// }
+
+// // model Post {
+// //   id        String     @default(cuid()) @id
+// //   title     String
+// //   content   String?
+// //   published Boolean @default(false)
+// //   author    User?   @relation(fields: [authorId], references: [id])
+// //   authorId  String?
+// // }
+
+// // model User {
+// //   id            String       @default(cuid()) @id
+// //   name          String?
+// //   email         String?   @unique
+// //   createdAt     DateTime  @default(now()) @map(name: "created_at")
+// //   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+// //   posts         Post[]
+// //   @@map(name: "users")
+// // }
